@@ -60,3 +60,19 @@ function fizzbuzz(n){
         i++
     }
 }
+
+
+
+function coinChange(change){
+    let dollars = Math.floor(change/100)
+    change = change%100
+    let quarters = Math.floor(change/25)
+    change = change%25
+    let dimes = Math.floor(change/10)
+    change = change%10
+    let nickles = Math.floor(change/5)
+    change = change%5
+    let pennies = change
+
+    return {'dollars':dollars,'quarters':quarters,'dimes':dimes,'nickles':nickles,'pennies':pennies}
+}
