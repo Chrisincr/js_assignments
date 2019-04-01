@@ -17,11 +17,22 @@ function Ninja(name){
     this.showStats=function(){
         console.log (`Name: ${this.name}, Health: ${this.health}, Speed: ${getSpeed()}, Strength: ${getStrength()}`)
     }
-
+    this.punch = function(target){
+        target.getPunched(5)
+        console.log(`${target.name} was punched by ${name} and lost 5 Health!`)
+    }
+    this.getPunched = function(damage){
+        this.health -= damage;
+        
+    }
 
 
 }
 
-var ninja1 = new Ninja("Hyabusa");
-ninja1.sayName();
-ninja1.showStats();
+//var ninja1 = new Ninja("Hyabusa");
+//ninja1.sayName();
+//ninja1.showStats();
+
+var blueNinja = new Ninja("Goemon");
+var redNinja = new Ninja("Bill Gates");
+redNinja.punch(blueNinja);
