@@ -12,10 +12,10 @@ function Ninja(name){
         return strength
     }
     this.sayName =function(){
-        console.log(self.name)
+        console.log(this.name)
     }
     this.showStats=function(){
-        console.log (`Name: ${this.name}, Health: ${this.health}, Speed: ${getSpeed()}, Strength: ${getStrength()}`)
+        console.log (`Name: ${name}, Health: ${this.health}, Speed: ${getSpeed()}, Strength: ${getStrength()}`)
     }
     this.punch = function(target){
         target.getPunched(5)
