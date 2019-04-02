@@ -3,13 +3,12 @@ class Card{
         this.suit = suit;
         this.card = card;
         this.value = Card.cards[card];
-    }
+    };
 
     show(){
         return(`${this.card} of ${this.suit} `)
-    }
-
-    static suits = ['hearts','diamonds','spades','clubs']
+    };
+    static suits = ['hearts','diamonds','spades','clubs'];
     static cards = {
         'ace': 1,
         'two': 2,
@@ -24,8 +23,8 @@ class Card{
         'jack': 11,
         'queen': 12,
         'kind': 13
-    }
-}
+    };
+};
 
 class Deck{
     constructor(){
