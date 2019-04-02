@@ -6,7 +6,7 @@ class Card{
     }
 
     show(){
-        console.log(`${this.card} of ${this.suit} `)
+        return(`${this.card} of ${this.suit} `)
     }
 
     static suits = ['hearts','diamonds','spades','clubs']
@@ -61,5 +61,42 @@ class Deck{
     }
 }
 
+class Player {
+    constructor(name){
+        this.name = name;
+        this.hand = [];
+    }
 
+    draw(deck,num = 1){
+        for(let i = 0; i < num; i++){
+            this.hand.push(deck.deal())
+        }
+        
+        console.log(`${this.name} drew ${num} card(s)`)
+        return this
+    }
 
+    discard(num = 0){
+        if (this.hand.length === 0){
+            console.log(`${this.name} has no cards to discard`)
+            return this
+        }
+        if (this.hand.length -1 < num){
+            num = this.hand.length -1
+        }
+        
+        [this.hand[num],this.hand[this.hand.length-1]] = [this.hand[this.hand.length-1],this.hand[num]]
+        let discarded = this.hand.pop()
+        console.log(`${this.name} has discarded ${discarded.show()}`)
+    }
+}
+
+deck = new Deck()
+deck.shuffle()
+
+chris = new Player('chris')
+chris.draw(deck,7)
+
+chris.discard()
+
+chris.discard(3)
