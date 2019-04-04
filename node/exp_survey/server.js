@@ -6,8 +6,33 @@ var bodyParser = require('body-parser')
 var app = express();
 app.use(express.static(__dirname + "/static"));
 app.use(bodyParser.urlencoded({extended : true}));
+
+const server = app.listen(8000, function() {
+    console.log("listening on port 8000");
+  })
+const io = require('socket.io')(server);
+
+
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs'); 
+
+io.on('connection', function(socket){
+    console.log('someone connected')
+
+
+    socket.on('form_submit', function (data){
+        console.log('data recieved:', data)
+        socket.emit('random_number', {number: Math.random()*100})
+    })
+
+})
+
+
+
+
+
+
+
 app.get('/', function(request, response) {
     
     response.render('index');
@@ -36,6 +61,3 @@ app.get('/result', function(request, response) {
  })
 
 // tell the express app to listen on port 8000, always put this at the end of your server.js file
-app.listen(8000, function() {
-  console.log("listening on port 8000");
-})
