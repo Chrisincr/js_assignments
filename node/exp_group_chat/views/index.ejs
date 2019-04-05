@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Index Page</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" ></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type ="text/javascript">
+        $(document).ready(function (){
+          var user = {}
+          $( "#namebtn" ).click(function(){
+                subform();
+            });
+            $( "#messagebtn" ).click(function(){
+                submessage();
+            });
+            
+
+            var socket = io(); //1
+    
+            socket.on('set_name', function () {
+
+              console.log('set name command recieved') //4
+              $('#name_prompt').css('display','inline-block')
+              
+              $('#msg_board').css('display','none')
+              });
+
+            socket.on('welcome',function(name){
+              console.log('welcome command recieved')
+              user=name //4
+              $('#name_prompt').css('display','none')
+              
+              $('#msg_board').css('display','inline-block')
+            });
+            
+            socket.on('new_message', function(message){
+              console.log('message recieved', message)
+              displayMessage(message)
+            })
+            function displayMessage(message){
+              $('#messagelog').append(message)
+            }
+
+
+
+            function subform() {
+                console.log('submit clicked')
+                let formdata = $(' #name_form ').serializeArray()
+                let goodform = {'name':formdata[0].value,
+                                'dojo':formdata[1].value}
+                socket.emit('name_submit', goodform)
+            }
+            function submessage() {
+                console.log('message submit clicked')
+                let formdata = $(' #message_form ').serializeArray()
+                let goodform = {'message':formdata[0].value,
+                                'name':user.name}
+                socket.emit('message_sent', goodform)
+            }
+
+
+         })
+    </script>
+  </head>
+  <body>
+      <h1> Dojo Chat</h1>
+      
+    <div id="name_prompt">
+      <p>Enter your name Here</p>
+      <form method="POST" id="name_form">
+        <div class="form-group">
+          <label for="name">Your Name:</label>
+          <input type="text" class="form-control" name="name" id="name" aria-describedby="nameID" placeholder="your name">
+          <small id="nameID" class="form-text text-muted">Please input your name</small>
+        </div>
+        <div class="form-group">
+          <label for="dojo">Your dojo:</label>
+          <input type="text" class="form-control" name="dojo" id="dojo" aria-describedby="dojoID" placeholder="your dojo">
+          <small id="dojoID" class="form-text text-muted">Please input your dojo</small>
+        </div>
+      </form>
+      <button id='namebtn' class='btn btn-primary'>Submit</button>
+    </div>
+    <div id="msg_board">
+      <h1>Welcome</h1>
+      <table id='messagelog'>
+
+      </table>
+      
+      <form id='message_form' method="POST">
+        <div class="form-group">
+          <label for="message">Message</label>
+          <input type="text" class="form-control" name="message" id="message" aria-describedby="messageID" placeholder="message">
+          <small id="messageID" class="form-text text-muted">Your Message Here</small>
+        </div>
+      </form>
+      <button id='messagebtn' class='btn btn-primary'>Submit</button>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </body>
+</html>
