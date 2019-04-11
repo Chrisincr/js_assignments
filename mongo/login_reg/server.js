@@ -2,7 +2,6 @@
 var express = require("express");
 var url = require('url');
 var bodyParser = require('body-parser')
-var bcrypt = require("bcrypt")
 
 var app = express();
 var session = require('express-session')
