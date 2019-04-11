@@ -12,12 +12,8 @@ app.use(session({
     saveUninitialized: true,
     cookie: {maxAge: 60000}
 }))
-var mongoose = require("mongoose")
-mongoose.connect('mongodb://localhost/login_reg');
+var database = require('./server/config/mongoose.js')
 
-//setup mongodb with mongoose
-models = require('./server/models/users.js')
-mongoose.model('User', models.user);
 
 
 //SEEDING DB WITH 1 USER IF NEEDED

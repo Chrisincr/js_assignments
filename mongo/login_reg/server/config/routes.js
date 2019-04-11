@@ -28,20 +28,28 @@ app.get('/success', function(request,response){
 app.post('/login', async function(request, response){
     console.log('in post login')
     let user = await User.findOne({email: request.body.email},function (err,user){
+        
         if(err){
             console.log('find user error: ',err)
+            return user
         }else{
+            
             return user
         }
     })
-    await login.login(user,request.body.password,function(success){
-        if (success){
-            response.redirect('/success')
-        }else{
-            response.redirect('/')
-        }
-        
-    }) 
+    if(user === null){
+        response.redirect('/')
+    }else{
+        await login.login(user,request.body.password,function(success){
+            if (success){
+                response.redirect('/success')
+            }else{
+                response.redirect('/')
+            }
+            
+        }) 
+    }
+    
 })
 
 app.post('/users', async function (request,response){
